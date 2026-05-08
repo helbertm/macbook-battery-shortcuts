@@ -26,14 +26,14 @@ teardown() {
 }
 
 @test "does not remind before 183 days from install date" {
-  date -v-100d "+%Y-%m-%d" >"$BATT_INSTALL_DATE_FILE"
+  date -v-100d "+%Y-%m-%d" >"$_BATT_INSTALL_DATE_FILE"
   run _batt_check_midyear_reminder
   [ "$status" -eq 0 ]
   [ "$output" = "" ]
 }
 
 @test "reminds after 183 days from install date when no calibration exists" {
-  date -v-184d "+%Y-%m-%d" >"$BATT_INSTALL_DATE_FILE"
+  date -v-184d "+%Y-%m-%d" >"$_BATT_INSTALL_DATE_FILE"
   run _batt_check_midyear_reminder
   [ "$status" -eq 0 ]
   [[ "$output" == *"no calibration has been recorded"* ]]
@@ -41,16 +41,16 @@ teardown() {
 }
 
 @test "does not repeat reminder before 90 days" {
-  date -v-184d "+%Y-%m-%d" >"$BATT_INSTALL_DATE_FILE"
-  date -v-10d "+%Y-%m-%d" >"$BATT_LAST_MIDYEAR_REMINDER_FILE"
+  date -v-184d "+%Y-%m-%d" >"$_BATT_INSTALL_DATE_FILE"
+  date -v-10d "+%Y-%m-%d" >"$_BATT_LAST_MIDYEAR_REMINDER_FILE"
   run _batt_check_midyear_reminder
   [ "$status" -eq 0 ]
   [ "$output" = "" ]
 }
 
 @test "repeats reminder after 90 days" {
-  date -v-300d "+%Y-%m-%d" >"$BATT_INSTALL_DATE_FILE"
-  date -v-91d "+%Y-%m-%d" >"$BATT_LAST_MIDYEAR_REMINDER_FILE"
+  date -v-300d "+%Y-%m-%d" >"$_BATT_INSTALL_DATE_FILE"
+  date -v-91d "+%Y-%m-%d" >"$_BATT_LAST_MIDYEAR_REMINDER_FILE"
   run _batt_check_midyear_reminder
   [ "$status" -eq 0 ]
   [[ "$output" == *"Use batt-midyear when convenient."* ]]

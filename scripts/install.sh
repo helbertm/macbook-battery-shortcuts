@@ -39,10 +39,10 @@ ask_language() {
   read -r -p "$(t choice_prompt)" choice
 
   case "${choice:-1}" in
-    1) LANG_CHOICE="en" ;;
-    2) LANG_CHOICE="pt" ;;
-    3) LANG_CHOICE="es" ;;
-    *) LANG_CHOICE="en" ;;
+  1) LANG_CHOICE="en" ;;
+  2) LANG_CHOICE="pt" ;;
+  3) LANG_CHOICE="es" ;;
+  *) LANG_CHOICE="en" ;;
   esac
 
   echo "$LANG_CHOICE" >"$LANG_FILE"
@@ -85,9 +85,9 @@ ask_install_mode() {
   read -r -p "$(t install_mode_prompt)" mode
 
   case "${mode:-1}" in
-    1) INSTALL_MODE="cli" ;;
-    2) INSTALL_MODE="gui" ;;
-    *) INSTALL_MODE="cli" ;;
+  1) INSTALL_MODE="cli" ;;
+  2) INSTALL_MODE="gui" ;;
+  *) INSTALL_MODE="cli" ;;
   esac
 }
 
