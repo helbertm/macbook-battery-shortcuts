@@ -28,7 +28,7 @@ load_i18n() {
 }
 
 ask_language() {
-  echo "$(t language_prompt)"
+  t "language_prompt"
   echo ""
   t language_en
   t language_pt
@@ -165,7 +165,7 @@ ask_activate_now() {
 
 finish_message() {
   echo ""
-  t done
+  t "done"
   echo ""
   t activate_shortcuts
   echo "  source ~/.zshrc"

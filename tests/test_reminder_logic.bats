@@ -1,7 +1,8 @@
 #!/usr/bin/env bats
 
 setup() {
-  export BATT_SHORTCUTS_DIR="$(mktemp -d)"
+  BATT_SHORTCUTS_DIR="$(mktemp -d)"
+  export BATT_SHORTCUTS_DIR
   mkdir -p "$BATT_SHORTCUTS_DIR"
   cat >"$BATT_SHORTCUTS_DIR/i18n.sh" <<'EOS'
 t() {
