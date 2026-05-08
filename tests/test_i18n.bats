@@ -1,7 +1,9 @@
 #!/usr/bin/env bats
+# shellcheck shell=bash
+# shellcheck disable=SC2030,SC2031
 
 setup() {
-  # shellcheck source=../src/i18n.sh
+  # shellcheck source=src/i18n.sh
   source "${BATS_TEST_DIRNAME}/../src/i18n.sh"
 }
 

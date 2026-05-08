@@ -134,6 +134,7 @@ install_shortcuts() {
 
   touch "$ZSHRC"
 
+  # shellcheck disable=SC2016
   if ! grep -q 'source \$HOME/.battery-shortcuts.zsh' "$ZSHRC"; then
     {
       echo ""
