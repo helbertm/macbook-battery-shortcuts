@@ -1,10 +1,10 @@
 #!/usr/bin/env bats
 
 setup() {
-  BATT_SHORTCUTS_DIR="$(mktemp -d)"
-  export BATT_SHORTCUTS_DIR
-  mkdir -p "$BATT_SHORTCUTS_DIR"
-  cat >"$BATT_SHORTCUTS_DIR/i18n.sh" <<'EOS'
+	BATT_SHORTCUTS_DIR="$(mktemp -d)"
+	export BATT_SHORTCUTS_DIR
+	mkdir -p "$BATT_SHORTCUTS_DIR"
+	cat >"$BATT_SHORTCUTS_DIR/i18n.sh" <<'EOS'
 t() {
   local key="$1"
   shift || true
@@ -17,41 +17,41 @@ t() {
   esac
 }
 EOS
-  # shellcheck source=/dev/null
-  source "${BATS_TEST_DIRNAME}/../src/battery-shortcuts.zsh"
+	# shellcheck source=/dev/null
+	source "${BATS_TEST_DIRNAME}/../src/battery-shortcuts.zsh"
 }
 
 teardown() {
-  rm -rf "$BATT_SHORTCUTS_DIR"
+	rm -rf "$BATT_SHORTCUTS_DIR"
 }
 
 @test "does not remind before 183 days from install date" {
-  date -v-100d "+%Y-%m-%d" >"$_BATT_INSTALL_DATE_FILE"
-  run _batt_check_midyear_reminder
-  [ "$status" -eq 0 ]
-  [ "$output" = "" ]
+	date -v-100d "+%Y-%m-%d" >"$_BATT_INSTALL_DATE_FILE"
+	run _batt_check_midyear_reminder
+	[ "$status" -eq 0 ]
+	[ "$output" = "" ]
 }
 
 @test "reminds after 183 days from install date when no calibration exists" {
-  date -v-184d "+%Y-%m-%d" >"$_BATT_INSTALL_DATE_FILE"
-  run _batt_check_midyear_reminder
-  [ "$status" -eq 0 ]
-  [[ "$output" == *"no calibration has been recorded"* ]]
-  [[ "$output" == *"Use batt-midyear when convenient."* ]]
+	date -v-184d "+%Y-%m-%d" >"$_BATT_INSTALL_DATE_FILE"
+	run _batt_check_midyear_reminder
+	[ "$status" -eq 0 ]
+	[[ "$output" == *"no calibration has been recorded"* ]]
+	[[ "$output" == *"Use batt-midyear when convenient."* ]]
 }
 
 @test "does not repeat reminder before 90 days" {
-  date -v-184d "+%Y-%m-%d" >"$_BATT_INSTALL_DATE_FILE"
-  date -v-10d "+%Y-%m-%d" >"$_BATT_LAST_MIDYEAR_REMINDER_FILE"
-  run _batt_check_midyear_reminder
-  [ "$status" -eq 0 ]
-  [ "$output" = "" ]
+	date -v-184d "+%Y-%m-%d" >"$_BATT_INSTALL_DATE_FILE"
+	date -v-10d "+%Y-%m-%d" >"$_BATT_LAST_MIDYEAR_REMINDER_FILE"
+	run _batt_check_midyear_reminder
+	[ "$status" -eq 0 ]
+	[ "$output" = "" ]
 }
 
 @test "repeats reminder after 90 days" {
-  date -v-300d "+%Y-%m-%d" >"$_BATT_INSTALL_DATE_FILE"
-  date -v-91d "+%Y-%m-%d" >"$_BATT_LAST_MIDYEAR_REMINDER_FILE"
-  run _batt_check_midyear_reminder
-  [ "$status" -eq 0 ]
-  [[ "$output" == *"Use batt-midyear when convenient."* ]]
+	date -v-300d "+%Y-%m-%d" >"$_BATT_INSTALL_DATE_FILE"
+	date -v-91d "+%Y-%m-%d" >"$_BATT_LAST_MIDYEAR_REMINDER_FILE"
+	run _batt_check_midyear_reminder
+	[ "$status" -eq 0 ]
+	[[ "$output" == *"Use batt-midyear when convenient."* ]]
 }
